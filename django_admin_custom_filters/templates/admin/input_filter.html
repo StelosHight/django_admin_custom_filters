@@ -1,0 +1,36 @@
+{% load i18n %}
+{% load extras %}
+
+<h3>{% blocktrans with filter_title=title %} By {{ filter_title }} {% endblocktrans %}</h3>
+<ul>
+    <li>
+        <form method="GET" action="">
+            {% for parameter_title in spec.parameters_title %}
+                <p><b>{{parameter_title}}</b></p>
+                {% with counter_value=forloop.counter0 %}
+                    {% for parameter_name in spec.parameters_name %}
+                        {% if forloop.counter0 == counter_value %}
+                            <input  type="text"
+                                        value="{{ spec.used_parameters|hash:parameter_name }}"
+                                        name="{{ parameter_name }}"/>
+                            {% for choice in choices %}
+                                {% if parameter_title in choice.filter_for %}
+                                    <br><label><input type="radio" name="{{choice.name}}" value="{{choice.value}}"/>{{choice.display}}</label>
+                                    <script>
+                                        var value = '{{spec.used_parameters|hash:choice.name}}';
+                                        if (value) {
+                                            django.jQuery('input[name = "{{choice.name}}"][value = "' + value + '"]').attr('checked', true);
+                                        }
+                                    </script>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    {% endfor %}
+                {% endwith %}
+                <br><br>
+            {% endfor %}
+        <button type="submit" hidden>Send</button>
+        </form>
+    </li>
+</ul>
+
