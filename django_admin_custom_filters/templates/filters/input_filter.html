@@ -10,9 +10,13 @@
                 {% with counter_value=forloop.counter0 %}
                     {% for parameter_name in spec.parameters_name %}
                         {% if forloop.counter0 == counter_value %}
-                            <input  type="text"
-                                        value="{{ spec.used_parameters|hash:parameter_name }}"
-                                        name="{{ parameter_name }}"/>
+                            <input  type="text" value="{{ spec.used_parameters|hash:parameter_name }}" name="{{ parameter_name }}"/>
+                            {% if parameter_name in spec.validation_error %}
+                                <script>
+                                    django.jQuery('input[name = "{{parameter_name}}"]').attr('style', "border-width: 2px; border-color: red;");
+                                    django.jQuery('input[name = "{{parameter_name}}"]').attr('title', "Validation error: Not number");
+                                </script>
+                            {% endif %}
                             {% for choice in choices %}
                                 {% if parameter_title in choice.filter_for %}
                                     <br><label><input type="radio" name="{{choice.name}}" value="{{choice.value}}"/>{{choice.display}}</label>

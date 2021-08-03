@@ -5,11 +5,15 @@ from django.utils.translation import gettext_lazy as _
 from decimal import Decimal
 
 
+__all__ = ('CustomInputChoiceFilter', 'DropdownFilter')
+
+
 class CustomInputChoiceFilter(ListFilter):
     parameters_name = []
     parameters_title = []
     lookup_parameters = []
-    template = 'admin/input_filter.html'
+    validation_error = []
+    template = 'filters/input_filter.html'
 
     def __init__(self, request, params, model, model_admin):
         super().__init__(request, params, model, model_admin)
@@ -60,21 +64,22 @@ class CustomInputChoiceFilter(ListFilter):
                 }
 
     def queryset(self, request, queryset):
+        self.validation_error.clear()
         params = {}
         for param in self.used_parameters:
             if 'filter' not in param and self.used_parameters[param]:
                 try:
                     value = Decimal(self.value(param))
-                except Exception as e:
-                    value = None
-                if f'filter_{param}' in self.used_parameters and self.value(f'filter_{param}') in ["lte", "gte"]:
-                    params[f"{param}__{self.value(f'filter_{param}')}"] = value
-                else:
-                    params[param] = value
+                    if f'filter_{param}' in self.used_parameters and self.value(f'filter_{param}') in ["lte", "gte"]:
+                        params[f"{param}__{self.value(f'filter_{param}')}"] = value
+                    else:
+                        params[param] = value
+                except:
+                    self.validation_error.append(param)
         if params:
             return queryset.filter(**params)
         return queryset
 
 
 class DropdownFilter(AllValuesFieldListFilter):
-    template = 'admin/dropdown_filter.html'
+    template = 'filters/dropdown_filter.html'
