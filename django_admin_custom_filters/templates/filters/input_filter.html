@@ -1,7 +1,7 @@
 {% load i18n %}
 {% load extras %}
 
-<h3>{% blocktrans with filter_title=title %} By {{ filter_title }} {% endblocktrans %}</h3>
+<h3>{% blocktrans with filter_title=title %} {{ filter_title }} {% endblocktrans %}</h3>
 <ul>
     <li>
         <form method="GET" action="">

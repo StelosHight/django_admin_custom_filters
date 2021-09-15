@@ -82,4 +82,8 @@ class CustomInputChoiceFilter(ListFilter):
 
 
 class DropdownFilter(AllValuesFieldListFilter):
+    slice_count = 3
     template = 'filters/dropdown_filter.html'
+
+    def slice_str(self):
+        return f"{self.slice_count}:"
