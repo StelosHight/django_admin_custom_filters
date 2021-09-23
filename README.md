@@ -1,6 +1,7 @@
 Custom filters for Django Admin
 -
-##Information
+## Information
+
 **1. Custom choice filter**
 
 1.1. Filter by multiple choices 
@@ -18,14 +19,14 @@ when values less than slice count (default slice count is 3)
 2.2. When values in filter more than slice count view changed 
 to select element.
 
-##Install
+## Install
 
 You can install this by using `pip`:
 ```shell
 pip install django-admin-custom-filters
 ```
 
-##Usage
+## Usage
 
 **1. Custom choice filter**
 
