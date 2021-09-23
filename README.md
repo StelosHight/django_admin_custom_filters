@@ -101,4 +101,4 @@ class TestAdmin(admin.ModelAdmin):
 
 **3.2. Custom dropdown filter by slice more than values in filter.**
 
-![Image2](img/image 2.png?raw=true)
+![Image2](img/image2.png?raw=true)
